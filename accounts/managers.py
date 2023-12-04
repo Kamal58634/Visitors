@@ -9,10 +9,10 @@ class UserManager(BaseUserManager):
             raise ValueError("user must be have email")
         if not full_name:
             raise ValueError("user must be have email")
-        user1=User(phone_number=phone_number,full_name=full_name,
-                        email=self.normalize_email(email))
-        user1.set_password(password)
-        user1.save(using=self._db)
+        # user1=User(phone_number=phone_number,full_name=full_name,
+        #                 email=self.normalize_email(email))
+        # user1.set_password(password)
+        # user1.save(using=self._db)
         user=self.model(phone_number=phone_number,full_name=full_name,
                         email=self.normalize_email(email))
         user.set_password(password)
