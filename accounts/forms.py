@@ -31,3 +31,8 @@ class UserChanegeForm(forms.ModelForm):
         model=User
         fields=('email','full_name','phone_number','password','last_login')
 
+class UserRegister(forms.Form):
+    phone_number=forms.CharField(max_length=200,required=True)
+    email=forms.EmailField(max_length=200,required=True)
+    full_name=forms.CharField(max_length=200,required=True)
+    password=forms.CharField(max_length=200,widget=forms.PasswordInput())

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend> Form Registration</legend>
+            
+            {{form.as_p}}
+            
+        </fieldset>
+        <input type="submit" value="Send">
+    </form>
+
+{% endblock %}
