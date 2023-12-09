@@ -22,6 +22,8 @@ class UserRegistionForm(View):
                                      password=cd['password'])
             messages.success(request,'You create a user','success')
         else:
-            raise ValidationError("there is a problem")   
+            # messages.error(request,"There is a problem",'warning')
+            return render(request,'accounts/registration.html',{'form':form})
+           
         return redirect('home:home')
             

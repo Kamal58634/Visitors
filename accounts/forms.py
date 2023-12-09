@@ -36,3 +36,10 @@ class UserRegister(forms.Form):
     email=forms.EmailField(max_length=200,required=True)
     full_name=forms.CharField(max_length=200,required=True)
     password=forms.CharField(max_length=200,widget=forms.PasswordInput())
+
+    def clean_email(self):
+        email=self.cleaned_data['email']
+        if 'admin' in email:
+            raise ValidationError("یوزر نمی تواند ادمین باشد ")
+        return email
+
