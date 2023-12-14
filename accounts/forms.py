@@ -18,6 +18,7 @@ class UserCreationForm(forms.ModelForm):
             raise ValidationError("Your password not Ok")
         return cd['password2']
     
+    
     def save(self, commit=True) :
          user=super().save(commit=False)
          user.set_password(self.cleaned_data['password1'])
@@ -37,9 +38,24 @@ class UserRegister(forms.Form):
     full_name=forms.CharField(max_length=200,required=True)
     password=forms.CharField(max_length=200,widget=forms.PasswordInput())
 
+    
     def clean_email(self):
         email=self.cleaned_data['email']
+        email1=User.objects.filter(email=email).exists()
         if 'admin' in email:
             raise ValidationError("یوزر نمی تواند ادمین باشد ")
+        elif email1:
+            raise ValidationError('email tekrary')
         return email
+
+    def clean_phone_number(self):
+        phone_number=self.cleaned_data['phone_number']
+        phone=User.objects.filter(phone_number=phone_number).exists()
+        if phone:
+            raise ValidationError('Phone can not tekrary') 
+        return phone_number  
+
+
+class VerifyForm(forms.Form):
+    code=forms.IntegerField()
 

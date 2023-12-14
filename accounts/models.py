@@ -29,4 +29,7 @@ class User(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
     
-    
+class OTPCode(models.Model):
+    phone_number=models.CharField(max_length=11)
+    code=models.IntegerField()
+    created=models.DateTimeField(auto_now_add=True)
