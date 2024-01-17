@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="div-military-info">
+      <form action="" method="post">
+         {% csrf_token %}
+        
+        <table class="table-crud" >
+            <caption style="padding: 15px;font-weight: bold;">Add Military Member</caption>
+            <tr>
+               <td><label for=""> Member_ID:</label></td> <td>{{form.member_id}}</td>
+            </tr>
+            <tr>
+               <td><label for=""> FullName:</label></td> <td>{{form.full_name}}</td>
+             </tr>
+             <tr>
+               <td><label for=""> Rank:</label></td><td>{{form.rank}}</td> 
+             </tr>
+             <tr>
+               <td><label for=""> ExpireDate:</label></td> <td ><input style="padding: 12px;" type="date" name="expiry_date" value="expiry_date"></td>
+             </tr>
+             <tr>
+               <td><label for=""> ContactNo:</label></td><td>{{form.contact}}</td> 
+             </tr>
+ 
+        </table>
+        <div style="display: flex; justify-content: center; margin-top: 10px;">
+             <input class="button btn-create" type="submit" value="Save">
+        </div>
+      </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,76 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+        {%  include 'inc/search.html'  %}
+           <div class="div-military-info"> 
+                <div style="display: flex; justify-content: start; margin: 10px 60px;">
+                   <a class="button" href="{% url 'visitors:create_military' %}">add</a>
+                </div>
+                <table class="container-table">
+                    <thead>
+                        <tr>
+                            {% for col in field_name %}
+                                <td>{{col}}</td>
+                            {% endfor %}
+                        
+                            <th scope="col" >
+                                ##
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for military in militiries %}
+                                <tr>
+                                    <td >
+                                        <p >
+                                            {{military.member_id}}
+                                        </p>
+                                    </td>
+                                    <td >
+                                        <p >
+                                            {{military.expiry_date}}
+                                        </p>
+                                    </td>
+
+                                    <td >
+                                        <p >
+                                            {{military.full_name}}
+                                        </p>
+                                    </td>
+                                    <td >
+                                        <p >
+                                            {{military.rank}}
+                                        </p>
+                                    </td>
+
+                                    <td >
+                                        <p >
+                                            {{military.contact}}
+                                        </p>
+                                    </td>
+                                    <!-- <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                        <span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
+                                            <span aria-hidden="true" class="absolute inset-0 bg-green-200 rounded-full opacity-50">
+                                            </span>
+                                            <span class="relative">
+                                                active
+                                            </span>
+                                        </span>
+                                    </td> -->
+                                    <td >
+                                        <a href="{% url 'visitors:military_visitors' military.id %}" >
+                                            Add-Visitors
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}        
+                    </tbody>
+                </table>
+           </div> 
+ 
+
+
+{% endblock %}

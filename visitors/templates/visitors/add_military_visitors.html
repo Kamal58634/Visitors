@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+{% load static %}
+<!-- {% now "Y-m-d H:i:s" as current_date %} -->
+
+
+
+{% block content %}
+    <section class="cont-add-mil-vis">
+        <div class="mil-info" >
+            <p><strong>Military Information</strong></p>
+             <hr>
+            <div>
+                <label for="military-name">Military-name:</label>
+                <h5 id="military-name">{{military.full_name}}</h3>
+                <br>
+                <label for="military-id"> Military-ID:</label>
+                <br>
+                <small id="military-id">{{military.member_id}}</small>
+            </div>
+        </div>
+        <div class="add-visitor">
+            <p><strong>Please Enter Visitor(s)</strong></p>
+                <hr>
+            <div class="add-visitor div1" >
+                
+                <div >
+                    <p >Current Date: {{ current_date|date:"F j, Y"}}  ----</p>
+                    
+                    <label  for="clock">Time:</label>
+                    
+                    <input  type="time"  id="clock" value="{{current_time}}">
+                </div>
+          
+                   <hr> 
+            </div>
+            
+            <form  id="form1" method="post">
+                {% csrf_token %}
+                    <table class="table-crud">
+                        <!-- <tr>
+                            <td>
+                            <label for="">issue_time:</label>
+                            </td>
+                            <td>
+                            <p id="issue_date" ></p>
+                            </td>
+                        </tr> -->
+                        
+                        {% for field  in form %}
+                            
+                            <tr>
+                                <td>
+                                {{field.label_tag}}
+                                </td>
+                                <td>
+                                {{field}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        
+                    </table>
+                    <div>
+                       <input type="submit" value="add-visitor">
+                    </div>
+                    <input type="hidden" name="is_ajax" id="is_ajax" value="0">
+            </form>
+            <!-- {{form.issue_time|date:_('F j,Y P')}} -->
+        </div>
+        <div class="final-add-visi">
+            <p><strong>Entered Visitor(s)</strong></p>
+             <hr>
+               <table class="table-crud" id="table-add-visitors">
+                    <thead>
+                        
+                            
+                        <tr>
+                            {% for field  in form %}
+                            <td>
+                               {{field.label_tag}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+               </table> 
+               <div>
+                <input id="save-visitor" type="submit" value="save-visitor(s)" disabled>
+             </div>
+        </div>
+        
+        
+    </section>
+<script src="{% static 'visitors/js/add_military.js' %}" ></script>
+{% endblock %}
