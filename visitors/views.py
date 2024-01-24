@@ -1,10 +1,16 @@
+import json
+from django.urls import reverse
 from django.views import View
 from django.shortcuts import render,get_list_or_404,redirect,get_object_or_404
 from .forms import MilitiryInfoForm,VisitInformationForm
-from .models import MilitiryMember,Visit_Information
+from .models import MilitiryMember,Visit_Information,Visitor
 from django.contrib import messages
 from django.http import JsonResponse
 import datetime
+from django.utils import timezone
+from util import time_zone
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 class ListMilitryView(View):
     field_name=[f.name for f in MilitiryMember._meta.get_fields()
@@ -50,7 +56,7 @@ class CreateMilitaryView(View):
         messages.error(request,'There is an error','error')
         return render(request,'visitors/create_military.html',{"form":form})    
     
-
+@method_decorator(csrf_exempt, name='dispatch')
 class AddMilitaryVisitorsView(View):
     class_form=VisitInformationForm
     def get(self,request,id):
@@ -61,68 +67,93 @@ class AddMilitaryVisitorsView(View):
         return render(request,'visitors/add_military_visitors.html',{'form':form,'military':military,'current_date':current_date,'current_time':current_time})    
 
     def post(self,request,id):
-        form=self.class_form(request.POST)
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+        except json.JSONDecodeError:
+            data = {}
+            form=self.class_form(request.POST)
+            print(request.POST)
+            if form.is_valid():
+                is_ajax =request.POST.get('is_ajax', '0')
+                if is_ajax == '1':    
+                  # print('@'*30)
+                  return JsonResponse({"valid":True})
+            return JsonResponse({"valid":False})
+        # print(data)    
+        
+        # print('@'*30)
+        # print(request.POST)
+        if data:
+            rows = data.get('rows', [])
+            is_ajax =data.get('is_ajax', '0')
+            i=0
+            current_date=time_zone.current_time_specific()
+            for row_data in rows:
+                form = self.class_form(row_data)
+        
+                if form.is_valid():
 
-        if form.is_valid():
-            # print('@'*30)
-            # print(request.POST)
-            # print(request.headers)
-            # print(request.META)
-            # if 'application/json' in request.META.get('HTTP_ACCEPT', ''):
-            is_ajax = request.POST.get('is_ajax', '0') == '1'
-            if is_ajax:    
-            # if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-                # print('@'*30)
-                return JsonResponse({"valid":True})
-        # if request.is_ajax():
-        # print(form.errors)
+
+                    if is_ajax == '0':
+                        # MilitiryMember
+                        print('@'*30)
+                        print(request.POST)
+                        
+                        cd=form.cleaned_data
+                        
+                        military_member = get_object_or_404(MilitiryMember, id=id)
+                        user_id = request.user.id
+                        
+                        visitor =Visitor.objects.create(full_name=cd['full_name'],
+                                            militiry_member=military_member,         
+                                            contact=cd['contact'],
+                                            user_id=user_id)
+                        if i==0:
+                            visit_info =Visit_Information.objects.create(gate=cd['gate'],
+                                    desination=cd['desination'],
+                                    unit=cd['unit'],
+                                    issue_time=current_date,
+                                    militiry_member=military_member,
+                                    user_id=user_id
+                                                            )
+                            
+                            
+                            visit_info.visitor.add(visitor)
+                i+=1
+                        # return redirect('home:home')redirect_url
+            return JsonResponse({"valid":True,"redirect_url":reverse('visitors:militaryinfo')})
+            print(form.errors)
+            print(request.body)    
         return JsonResponse({"valid":False})
 
 
-# # views.py
 
-# from django.shortcuts import render, redirect
-# from django.http import JsonResponse
-# from .forms import MultiTableForm
-# from .models import SourceTable, DestinationTable
 
-# def submit_form(request):
-#     if request.method == 'POST':
-#         form = MultiTableForm(request.POST)
-#         if form.is_valid():
-#             try:
-#                 # Save data to the source table
-#                 source_instance = SourceTable(name=form.cleaned_data['source_name'])
-#                 # Set other fields for the source table as needed
-#                 source_instance.save()
+    # def post(self, request, id):
+    #     form = self.class_form(request.POST)
+    #     if form.is_valid():
+    #         is_ajax = request.POST.get('is_ajax', '0')  # Default to '0' if not present
+    #         if is_ajax == '1':
+    #             return JsonResponse({"valid": True})
+    #         elif is_ajax == '0':
+    #             cd = form.cleaned_data
 
-#                 # Save data to the destination table
-#                 destination_instance = DestinationTable(name=form.cleaned_data['destination_name'])
-#                 # Set other fields for the destination table as needed
-#                 destination_instance.save()
+    #             military_member = get_object_or_404(MilitiryMember, id=id)
+                
+    #             visit_info = Visit_Information.objects.create(
+    #                 gate=cd['gate'],
+    #                 desination=cd['desination'],
+    #                 unit=cd['unit'],
+    #                 issue_time=current_date,  # You need to set the issue_time here
+    #                 militiry_member=military_member
+    #             )
 
-#                 if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-#                     return JsonResponse({"valid": True})
-#                 else:
-#                     return redirect('success_page')  # Redirect to a success page
+    #             visitor = Visitor.objects.create(
+    #                 full_name=cd['full_name'],
+    #                 contact=cd['contact']
+    #             )
+    #             visit_info.visitor.add(visitor)
 
-#             except Exception as e:
-#                 # If there's an exception, handle it and return an error message
-#                 error_message = str(e)
-#                 if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-#                     return JsonResponse({"valid": False, "error_message": error_message})
-#                 else:
-#                     # Render a regular response with an error message
-#                     return render(request, 'submit_form.html', {'form': form, 'error_message': error_message})
-#         else:
-#             # If the form is not valid, return an error message
-#             error_message = "Form is not valid. Please check your inputs."
-#             if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-#                 return JsonResponse({"valid": False, "error_message": error_message})
-#             else:
-#                 # Render a regular response with an error message
-#                 return render(request, 'submit_form.html', {'form': form, 'error_message': error_message})
-#     else:
-#         form = MultiTableForm()
+    #             return redirect('home:home')
 
-#     return render(request, 'submit_form.html', {'form': form})
+    #     return JsonResponse({"valid": False})

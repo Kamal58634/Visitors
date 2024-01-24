@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Insides Apps
+    'A',
     'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',
     'visitors.apps.VisitorsConfig',
     #Outsids Apps
     'django.contrib.humanize',
+    
     
 
 ]

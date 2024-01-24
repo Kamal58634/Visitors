@@ -246,16 +246,17 @@ nav ul li:hover >ul{
 /*  */
 input[type="submit"],button,.button{
     color: rgb(244, 252, 252);
-    border-radius: 15%;
-    background-color: black;
-    padding: 5px;
-    border: 2px white solid;
+    border-radius: 5px;
+    background-color: #2572b4;
+    padding:6px 12px;
+    border: 2px #143c5f solid;
+    cursor: pointer;
     /* width: 8%; */
     
 }
 
 input[type="submit"]:hover{
-    background-color: cornflowerblue;
+    background-color: rgb(166, 173, 185);
     color: black;
     text-shadow: 2px;
     transition: .39s;
@@ -355,35 +356,29 @@ input[type="submit"]:active  ~  .alert,.alert-warning{
     grid-template-rows: repeat(6 ,1fr);
 }
 .cont-add-mil-vis .mil-info{
-    grid-column:1/3 ;
-    
-    padding-left: .5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    justify-items: left;
-    gap: .4rem;
-    
+    grid-column:1/2 ;
+    box-sizing: border-box;
 }
 .cont-add-mil-vis .add-visitor{
-    grid-column: 3/4;
-   
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    justify-items: left;
-    gap: .4rem;
-    
-}
+        grid-column: 2/5;  
+} 
 .cont-add-mil-vis .final-add-visi{
-    grid-column: 5/8;
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    justify-items: left;
-    gap: .4rem;
+    grid-column: 5/9;
+    margin-right: 5px;
     
 }
+.cont-add-mil-vis .mil-info , 
+.cont-add-mil-vis .add-visitor, 
+.cont-add-mil-vis .final-add-visi{ 
+        
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Use 'flex-start' instead of 'left' */
+    gap: 0.4rem;
+    padding-left: 0.5rem; /* Move padding to this common rule */
+    
+}
+
 .add-visitor + div{
     
     /* display: flex; */
@@ -407,9 +402,9 @@ input[type="submit"]:active  ~  .alert,.alert-warning{
     margin-bottom: 5px;
 
 }
-.final-add-visi p,input,label{
-    display: inline;
-    padding: 5px;
+.final-add-visi p,label{
+    /* display: inline; */
+    padding: 7px;
     margin-bottom: 5px;
 
 }

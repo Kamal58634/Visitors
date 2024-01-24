@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+from django.utils import timezone
 
 class MilitiryMember(models.Model):
     rank_id={("1","S1"),("2","S2"),("3","S3"),}
@@ -35,7 +36,7 @@ class Visit_Information(models.Model):
     desination=models.CharField(max_length=200)
     unit=models.CharField(max_length=200)
     returnd=models.BooleanField(default=False)
-    issue_time=models.DateTimeField()
+    issue_time=models.DateTimeField()#default=timezone.now
     updated=models.DateTimeField(auto_now=True)
     date_return = models.DateField(blank=True, null=True)
     time_return = models.TimeField(blank=True, null=True)
