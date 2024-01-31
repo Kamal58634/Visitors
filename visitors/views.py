@@ -20,7 +20,7 @@ from django.core.serializers import serialize
 
 class ListMilitryView(View):
     field_name=[f.name for f in MilitiryMember._meta.get_fields()
-                    if not (f.is_relation or f.one_to_one or f.many_to_many) and f.name !='id' and f.name!='created']
+                    if not (f.is_relation or f.one_to_one or f.many_to_many) and f.name !='id' and f.name!='created' and f.name !='active' ]
     
     def get(self,request):
         military=MilitiryMember.objects.all() 
@@ -53,11 +53,15 @@ class CreateMilitaryView(View):
 
         if form.is_valid():
             cd=form.cleaned_data
-            MilitiryMember.objects.create(member_id=cd['member_id'],
+            user = request.user.id
+            # print('%'*45)
+            # print(user_id)
+            MilitiryMember.objects.create(user_id=user,member_id=cd['member_id'],
                                             full_name=cd['full_name'],
                                             expiry_date=cd['expiry_date'],
                                             rank=cd['rank'],
-                                            contact=cd['contact'])
+                                            contact=cd['contact'],
+                                            licence_plate=cd['licence_plate'])
             return redirect('visitors:militaryinfo')
         
         messages.error(request,'There is an error','error')

@@ -5,15 +5,15 @@ from django.utils import timezone
 class MilitiryMember(models.Model):
     rank_id={("1","S1"),("2","S2"),("3","S3"),}
 
-    user=models.ForeignKey(User,default=0
-    ,on_delete=models.CASCADE,related_name='Musers')
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='Musers')
     member_id=models.CharField("MilitaryID",max_length=200,unique=True)
     expiry_date=models.DateField()
     full_name=models.CharField(max_length=200,)
     rank=models.CharField(max_length=100,choices=rank_id)
     contact=models.CharField(max_length=11)
     created=models.DateTimeField(auto_now_add=True,null=True,blank=True)
-    # licence_plate=models.CharField(default=0,max_length=6)
+    licence_plate=models.CharField(null=True,blank=True,max_length=6)
+    active=models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.member_id}--{self.full_name}'
@@ -48,7 +48,7 @@ class Visit_Information(models.Model):
     date_return = models.DateField(blank=True, null=True)
     time_return = models.TimeField(blank=True, null=True)
     tag_no=models.CharField(default=0,max_length=6)
-    licence_plate=models.CharField(default=0,max_length=6)
+    # licence_plate=models.CharField(default=0,max_length=6)
     gear_no=models.CharField(default=0,max_length=6)
     service_type=models.ForeignKey(SericeType,default=0,on_delete=models.CASCADE,related_name="service_t")
     

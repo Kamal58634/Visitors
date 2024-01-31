@@ -9,7 +9,7 @@ class MilitiryInfoForm(forms.ModelForm):
                 
                 model=MilitiryMember
                 #fields=('__all__')
-                exclude=('user','created','licence_plate')
+                exclude=('user','created','active')
                 # wigets={
                 #         'date_return':AdminDateWidget(),
                 #         'time_return':AdminTimeWidget(),

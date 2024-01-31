@@ -19,20 +19,54 @@
         <div class="mil-info" >
             <p><strong>Military Info</strong></p>
              <hr>
-            <div>
+            <!-- <div>
                 <label for="military-name">Military-name:</label>
                 <h5 id="military-name">{{military.full_name}}</h3>
                 <br>
                 <label for="military-id"> Military-ID:</label>
                 <br>
                 <small id="military-id">{{military.member_id}}</small>
-            </div>
+            </div> -->
             <div>
-                <label for="licence">license Plate</label>
-                <input type="text" name="" id="licence">
+                <ul>
+                    <li>
+                        <label for="military-name">Name:</label>
+                        <small id="military-name">{{military.full_name}}</small> 
+                    </li>
+                    <!-- <br> -->
+                    <li>
+                        <br>
+                        <hr>
+                    </li>
+                    
+                    <li>
+                        <label for="military-id"> ID:</label>
+                        
+                        <small id="military-id">{{military.member_id}}</small>
+                    </li>
+                    <li>
+                        <br>
+                        <hr>
+                    </li>
+                    <li>
+                        <label for="licence">license Plate:</label>
+                        
+                        <small id="licence">{{military.licence_plate}}</small>
+                    </li>
+                    <li>
+                        <br>
+                        <hr>
+                    </li>
+                    <li>
+                        <br>
+                        <label for="tag_no_gear">Gear Pass NO</label>
+                        <input type="text" name="" id="tag_no_gear">
+                    </li>
+                </ul>
+                
+                <!-- <input type="text" name="" id="licence" value="{{military.licence_plate}}"> -->
                 <br>
-                <label for="tag_no_gear">Gear Pass NO</label>
-                <input type="text" name="" id="tag_no_gear">
+                
             </div>
         </div>
         <div class="add-visitor">
