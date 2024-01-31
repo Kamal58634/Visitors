@@ -9,7 +9,7 @@ class MilitiryInfoForm(forms.ModelForm):
                 
                 model=MilitiryMember
                 #fields=('__all__')
-                exclude=('user','created',)
+                exclude=('user','created','licence_plate')
                 # wigets={
                 #         'date_return':AdminDateWidget(),
                 #         'time_return':AdminTimeWidget(),
@@ -21,6 +21,7 @@ class VisitInformationForm(forms.ModelForm):
 
         class Meta:
                 model=Visit_Information
-                fields=('gate','desination','unit',)
+                fields=('gate','desination','unit','tag_no')
 
-        
+class TypeOfServicesPartialForm(forms.Form):
+        type=forms.IntegerField()        

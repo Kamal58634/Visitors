@@ -21,6 +21,7 @@ body{
 
 
 .search{
+    
     width: 100%;
     height: 10vh;
     display: flex;
@@ -328,6 +329,7 @@ input[type="submit"]:active  ~  .alert,.alert-warning{
     display:flex;
     flex-direction: column;
     justify-content: center;
+    
 
 }
 /* Az Button Ham Inherit Darad */ */
@@ -358,6 +360,7 @@ input[type="submit"]:active  ~  .alert,.alert-warning{
 .cont-add-mil-vis .mil-info{
     grid-column:1/2 ;
     box-sizing: border-box;
+    margin-left: 5px;
 }
 .cont-add-mil-vis .add-visitor{
         grid-column: 2/5;  
@@ -376,6 +379,9 @@ input[type="submit"]:active  ~  .alert,.alert-warning{
     justify-content: flex-start; /* Use 'flex-start' instead of 'left' */
     gap: 0.4rem;
     padding-left: 0.5rem; /* Move padding to this common rule */
+    border: 1px var(--color-black) solid;
+    padding: 5px;
+    ma
     
 }
 
@@ -415,3 +421,38 @@ input[type="submit"]:active  ~  .alert,.alert-warning{
 }
 
 /* End_Add_military_Visitors */
+
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
+.closeModalBtn{
+    background-color:var(--color-white);
+    color:var(--color-black);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 100%;
+}
+.do-form-add-visitor:disabled{
+    color: #999; /* Dim text color */
+    background-color: #eee; /* Light gray background */
+    cursor: not-allowed; 
+}
+
+
+
+
+

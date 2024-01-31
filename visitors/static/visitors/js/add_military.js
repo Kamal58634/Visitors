@@ -267,3 +267,4 @@ saveVisitor() {
 document.addEventListener('DOMContentLoaded', () => {
     const visitorApp = new VisitorApp();
 });
+

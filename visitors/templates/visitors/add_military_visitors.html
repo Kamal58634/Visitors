@@ -8,6 +8,11 @@
 
 
 {% block content %}
+        <style>
+            body, html {
+                overflow: hidden;
+            }
+        </style>
 
 
     <section class="cont-add-mil-vis">
@@ -21,6 +26,13 @@
                 <label for="military-id"> Military-ID:</label>
                 <br>
                 <small id="military-id">{{military.member_id}}</small>
+            </div>
+            <div>
+                <label for="licence">license Plate</label>
+                <input type="text" name="" id="licence">
+                <br>
+                <label for="tag_no_gear">Gear Pass NO</label>
+                <input type="text" name="" id="tag_no_gear">
             </div>
         </div>
         <div class="add-visitor">

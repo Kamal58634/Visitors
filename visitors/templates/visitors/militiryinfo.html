@@ -60,17 +60,62 @@
                                             </span>
                                         </span>
                                     </td> -->
-                                    <td >
+                                    <!-- <td >
                                         <a href="{% url 'visitors:military_visitors' military.id %}" >
-                                            Add-Visitors
+                                            Service(s)
                                         </a>
+                                    </td> -->
+                                    
+                                    <td>
+                                        <!-- Button to show the modal -->
+                                        
+                                            <button type="button" class="openModalBtn" data-target="customModal{{ forloop.counter }}" >Service(s) </button>
+                                        
+                                        
+                                        <!-- Hidden modal -->
+                                        <div id="customModal{{ forloop.counter }}" class="custom-modal"  data-url="{% url 'visitors:my-existing-view-api' %}" >
+                                            <div class="modal-content custom-modal-content">
+                                                <button type="button" class="closeModalBtn" >X</button>
+                                                <br>
+                                                <h5>Please select Service(s)</h5>
+                                                <hr>
+                                                <br>
+                                                <!-- Checkboxes dynamically loaded here -->
+
+                                                <form id="checkboxForm{{ forloop.counter }}" action="{% url 'visitors:military_visitors' military.id %}" >
+                                                    
+                                                    {% csrf_token %}
+                                                    {% for service in serviceType %}
+                                                        
+                                                        <input class="input-service" type="checkbox" name="{{service.name}}" id="checkbox{{ forloop.counter }}" value="{{service.id}}">
+                                                        <label for="checkbox{{ forloop.counter }}">{{service.name}}</label>
+                                                        <br>
+                                                    {% endfor %}
+                                                    <!-- <input type="hidden" name="csrfmiddlewaretoken" value="your_csrf_token_value"> -->
+                                                    <div>
+                                                       <hr>
+                                                        <br>
+                                                        <!-- <input class="do-form-add-visitor" type="submit" value="Do" disabled> --> 
+                                                </form>
+                                                
+                                                <!-- <input class="do-form-add-visitor" type="submit" value="Do" disabled> -->
+                                                <button type="button" class="do-form-add-visitor" server-url="{% url 'visitors:military_visitors' military.id %}" >Do</button>
+                                                
+                                                
+                                            </div>
+                                        </div>
                                     </td>
+                                        <!-- <button type="button" id="openPopup">Open Popup</button> -->
+                                    
                                 </tr>
                             {% endfor %}        
                     </tbody>
                 </table>
            </div> 
- 
-
+           
+           <!-- <div id="yourElement" data-url="{% url 'visitors:my-existing-view-api' %}"></div> -->
+          
+           <script src="{% static 'visitors/js/test.js' %}" ></script>       
+           <!-- <script src="{% static 'visitors/js/militaryinfo.js' %}" ></script>        -->
 
 {% endblock %}
