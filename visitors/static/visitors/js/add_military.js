@@ -102,13 +102,16 @@ saveVisitor() {
         // Add other properties as needed
         rows: [],
     };
-
+    console.log(jsonData)
     this.addedRowsData.forEach((value, index) => {
         const rowObject = {};
 
         for (const key in value) {
             if (key === "gate") {
-                value[key] = this.retritiveSelectItemGate(value[key]);
+                value[key] = this.retritiveSelectItemGate("gate",value[key]);
+            }
+            if (key === "desination"){
+                value[key]=this.retritiveSelectItemGate("desination",value[key]);
             }
             rowObject[key] = value[key];
         }
@@ -117,7 +120,7 @@ saveVisitor() {
     });
 
     const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
-
+    console.log(jsonData)
     fetch(form.action, {
         method: 'POST',
         headers: {
@@ -128,9 +131,10 @@ saveVisitor() {
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data)
         if (data.valid) {
             if (data.redirect_url) {
-                window.location.href = data.redirect_url;
+                  window.location.href = data.redirect_url;
             } else {
                 console.log('Data sent successfully:', data);
             }
@@ -146,8 +150,10 @@ saveVisitor() {
 // 
  
 
-    retritiveSelectItemGate(gateName) {
-        const selectGate = document.querySelector('#id_gate');
+    retritiveSelectItemGate(idName,valueEnd) {
+        const idNameSearch="#id_"+idName;
+        console.log(idNameSearch)
+        const selectGate = document.querySelector(idNameSearch);
         const keyValueArray = [];
 
         for (let i = 0; i < selectGate.options.length; i++) {
@@ -160,12 +166,14 @@ saveVisitor() {
             };
             keyValueArray.push(keyValue);
         }
+        
 
         const foundElement = keyValueArray.find((value) => {
-            return value.value.includes(gateName);
+            return value.value.includes(valueEnd);
         });
 
         const codeGate = foundElement ? foundElement.key : null;
+       
         return codeGate;
     }
 

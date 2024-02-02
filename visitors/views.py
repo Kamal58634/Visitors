@@ -120,8 +120,8 @@ class AddMilitaryVisitorsView(View):
     def post(self,request,id):
         try:
             data = json.loads(request.body.decode('utf-8'))
-            # print("%"*40)
-            # print(data)
+            print("%"*40)
+            print(data)
         except json.JSONDecodeError:
             data = {}
             form=self.class_form(request.POST)
@@ -134,14 +134,16 @@ class AddMilitaryVisitorsView(View):
             return JsonResponse({"valid":False})
         # print(data)    
         
-        # print('@'*30)
-        # print(request.POST)
+        print('@'*30)
+        print(request.POST)
         if data:
             rows = data.get('rows', [])
             is_ajax =data.get('is_ajax', '0')
             i=0
             current_date=time_zone.current_time_specific()
             for row_data in rows:
+                print('^'*30)
+                print(row_data)
                 form = self.class_form(row_data)
         
                 if form.is_valid():
@@ -149,34 +151,47 @@ class AddMilitaryVisitorsView(View):
 
                     if is_ajax == '0':
                         # MilitiryMember
-                        print('@'*30)
-                        print(request.POST)
-                        
+                        print('#$'*30)
+                        # print(form)
+                        # user_id=user_id
+
                         cd=form.cleaned_data
-                        
+                        print(cd)
                         military_member = get_object_or_404(MilitiryMember, id=id)
-                        user_id = request.user.id
-                        
+                        # service_types=get_object_or_404(SericeType,id=1)
+                        service_type_id = cd.get('service_type')  # assuming 'service_type' is a field in your form
+                        service_types = get_object_or_404(SericeType, id=1)
+
+                        print(service_types)
+                        print(military_member)
+                        user_id = request.user
+                        #   
                         visitor =Visitor.objects.create(full_name=cd['full_name'],
-                                            militiry_member=military_member,         
+                                            militiry_member=military_member,
                                             contact=cd['contact'],
-                                            user_id=user_id)
+                                            user=user_id
+                                            )
                         if i==0:
+                            # 
+                            desination_value = cd['desination']
                             visit_info =Visit_Information.objects.create(gate=cd['gate'],
-                                    desination=cd['desination'],
+                                    desination_id=desination_value.id ,                                    
+                                    # desination=desination_value,
                                     unit=cd['unit'],
                                     issue_time=current_date,
                                     militiry_member=military_member,
-                                    user_id=user_id
+                                    user=user_id,
+                                    service_type=service_types
+                                    
                                                             )
                             
                             
                             visit_info.visitor.add(visitor)
                 i+=1
                         # return redirect('home:home')redirect_url
-            return JsonResponse({"valid":True,"redirect_url":reverse('visitors:militaryinfo')})
-            print(form.errors)
-            print(request.body)    
+                return JsonResponse({"valid":True,"redirect_url":reverse('visitors:militaryinfo')})
+                print(form.errors)
+                print(request.body)    
         return JsonResponse({"valid":False})
 
 
