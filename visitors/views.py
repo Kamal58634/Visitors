@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views import View
 from django.shortcuts import render,get_list_or_404,redirect,get_object_or_404
 from .forms import MilitiryInfoForm,VisitInformationForm
-from .models import MilitiryMember,Visit_Information,Visitor,SericeType
+from .models import MilitiryMember,Visit_Information,Visitor,SericeType,Desinition
 from django.contrib import messages
 from django.http import JsonResponse
 import datetime
@@ -24,6 +24,7 @@ class ListMilitryView(View):
     
     def get(self,request):
         military=MilitiryMember.objects.all() 
+       
         serviceType=SericeType.objects.all()
          
         return render(request,'visitors/militiryinfo.html',{'militiries':military,'field_name':self.field_name,'serviceType':serviceType})
@@ -46,6 +47,7 @@ class CreateMilitaryView(View):
     class_form=MilitiryInfoForm
     def get(self,request):
         form=self.class_form
+        print(form)
         return render(request,'visitors/create_military.html',{"form":form})
 
     def post(self,request):
@@ -54,14 +56,16 @@ class CreateMilitaryView(View):
         if form.is_valid():
             cd=form.cleaned_data
             user = request.user.id
-            # print('%'*45)
-            # print(user_id)
+            print('%'*45)
+            print(cd['unit'])
+            unitEnd=Desinition.objects.get(name=cd['unit'])
             MilitiryMember.objects.create(user_id=user,member_id=cd['member_id'],
                                             full_name=cd['full_name'],
                                             expiry_date=cd['expiry_date'],
                                             rank=cd['rank'],
                                             contact=cd['contact'],
-                                            licence_plate=cd['licence_plate'])
+                                            licence_plate=cd['licence_plate'],
+                                            unit=unitEnd)
             return redirect('visitors:militaryinfo')
         
         messages.error(request,'There is an error','error')
@@ -177,7 +181,6 @@ class AddMilitaryVisitorsView(View):
                             visit_info =Visit_Information.objects.create(gate=cd['gate'],
                                     desination_id=desination_value.id ,                                    
                                     # desination=desination_value,
-                                    unit=cd['unit'],
                                     issue_time=current_date,
                                     militiry_member=military_member,
                                     user=user_id,

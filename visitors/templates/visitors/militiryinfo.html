@@ -15,7 +15,9 @@
                             {% for col in field_name %}
                                 <td>{{col}}</td>
                             {% endfor %}
-                        
+                            <th scope="col" >
+                                Unit
+                            </th>
                             <th scope="col" >
                                 ##
                             </th>
@@ -51,9 +53,15 @@
                                             {{military.contact}}
                                         </p>
                                     </td>
+                                    
                                     <td >
                                         <p >
                                             {{military.licence_plate}}
+                                        </p>
+                                    </td>
+                                    <td >
+                                        <p >
+                                            {{military.unit}}
                                         </p>
                                     </td>
                                     <!-- <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">

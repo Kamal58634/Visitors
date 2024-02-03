@@ -21,7 +21,7 @@ class VisitInformationForm(forms.ModelForm):
 
         class Meta:
                 model=Visit_Information
-                fields=('gate','desination','unit','tag_no')
+                fields=('gate','desination','tag_no')
 
 class TypeOfServicesPartialForm(forms.Form):
         type=forms.IntegerField()        

@@ -13,6 +13,7 @@ class MilitiryMember(models.Model):
     contact=models.CharField(max_length=11)
     created=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     licence_plate=models.CharField(null=True,blank=True,max_length=6)
+    unit=models.ForeignKey('Desinition',blank=True, null=True,on_delete=models.CASCADE,related_name='desinition_u')
     active=models.BooleanField(default=True)
 
     def __str__(self):
@@ -55,7 +56,6 @@ class Visit_Information(models.Model):
     visitor=models.ManyToManyField(Visitor,related_name='visitors')
     gate=models.CharField(max_length=200,choices=Gates)
     desination=models.ForeignKey(Desinition,on_delete=models.CASCADE,related_name='desinition_d')
-    unit=models.ForeignKey(Desinition,blank=True, null=True,on_delete=models.CASCADE,related_name='desinition_u')
     returnd=models.BooleanField(default=False)
     issue_time=models.DateTimeField()#default=timezone.now
     updated=models.DateTimeField(auto_now=True)
